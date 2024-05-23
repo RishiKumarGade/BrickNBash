@@ -18,6 +18,10 @@ public class Game extends JFrame {
     private static final Color OBSTACLE_COLOR = Color.RED;
     private static final Color BALL_COLOR = Color.BLUE;
     private static final Color GOAL_COLOR = Color.GREEN;
+    public ImageIcon brick = new ImageIcon("brick.png");
+    public ImageIcon ballImage = new ImageIcon("ball.png");
+    public ImageIcon background = new ImageIcon("background.jpg");
+    public ImageIcon goalImage = new ImageIcon("goal.png");
 
     private final Random random;
     private final List<Rectangle> obstacles;
@@ -63,14 +67,19 @@ public class Game extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(OBSTACLE_COLOR);
+                g.drawImage(background.getImage(), 0,0, FRAME_WIDTH, FRAME_HEIGHT, this);
                 for (Rectangle obstacle : obstacles) {
-                    g.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                    // g.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                    g.drawImage(brick.getImage(), obstacle.x, obstacle.y, obstacle.width, obstacle.height, this);
                 }
 
                 g.setColor(BALL_COLOR);
                 g.fillOval(ball.x, ball.y, ball.width, ball.height);
+                g.drawImage(ballImage.getImage(), ball.x, ball.y, ball.width, ball.height, this);
                 g.setColor(GOAL_COLOR);
-                g.fillRect(goal.x, goal.y, goal.width, goal.height);
+                // g.fillRect(goal.x, goal.y, goal.width, goal.height);
+                g.drawImage(goalImage.getImage(), goal.x, goal.y, goal.width, goal.height, this);
+
             }
         };
         add(panel);
@@ -106,10 +115,10 @@ public class Game extends JFrame {
         Rectangle obstacle;
         do {
             int obstacleWidth = random.nextInt(OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
-            int obstacleHeight = random.nextInt(OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
+            // int obstacleHeight = random.nextInt(OBSTACLE_MAX_SIZE - OBSTACLE_MIN_SIZE) + OBSTACLE_MIN_SIZE;
             int x = random.nextInt(FRAME_WIDTH - obstacleWidth);
-            int y = random.nextInt(FRAME_HEIGHT - obstacleHeight);
-            obstacle = new Rectangle(x, y, obstacleWidth, obstacleHeight);
+            int y = random.nextInt(FRAME_HEIGHT - obstacleWidth);
+            obstacle = new Rectangle(x, y, obstacleWidth, obstacleWidth);
         } while (intersectsObstacle(obstacle));
         return obstacle;
     }
